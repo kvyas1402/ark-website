@@ -1,7 +1,7 @@
 {
   "name": "ark2-website",
   "version": "1.0.0",
-  "homepage": "https://arkglobal.github.io/ark2-website",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
