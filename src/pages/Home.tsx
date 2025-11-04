@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -8,6 +8,8 @@ const Home: React.FC = () => {
   const [counters, setCounters] = useState({ cost: 0, projects: 0, hours: 0 });
   const [currentService, setCurrentService] = useState(0);
   const [currentClientIndex, setCurrentClientIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const counterRef = useRef<HTMLDivElement>(null);
 
   const services = [
     {
@@ -48,20 +50,36 @@ const Home: React.FC = () => {
   ];
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const interval = setInterval(() => {
-        setCounters(prev => ({
-          cost: prev.cost < 100 ? prev.cost + 3 : 100,
-          projects: prev.projects < 3000 ? prev.projects + 100 : 3000,
-          hours: prev.hours < 12000 ? prev.hours + 400 : 12000
-        }));
-      }, 50);
-      
-      setTimeout(() => clearInterval(interval), 3000);
-    }, 500);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+          const timer = setTimeout(() => {
+            const interval = setInterval(() => {
+              setCounters(prev => ({
+                cost: prev.cost < 100 ? prev.cost + 3 : 100,
+                projects: prev.projects < 3000 ? prev.projects + 100 : 3000,
+                hours: prev.hours < 12000 ? prev.hours + 400 : 12000
+              }));
+            }, 50);
+            
+            setTimeout(() => clearInterval(interval), 3000);
+          }, 500);
+        }
+      },
+      { threshold: 0.3 }
+    );
 
-    return () => clearTimeout(timer);
-  }, []);
+    if (counterRef.current) {
+      observer.observe(counterRef.current);
+    }
+
+    return () => {
+      if (counterRef.current) {
+        observer.unobserve(counterRef.current);
+      }
+    };
+  }, [isVisible]);
 
   useEffect(() => {
     const serviceInterval = setInterval(() => {
@@ -101,18 +119,18 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      <section className="counter-section">
+      <section className="counter-section" ref={counterRef}>
         <div className="container">
           <div className="counter-grid">
-            <div className="counter-item">
+            <div className="counter-item animate-on-scroll">
               <div className="counter-number">${counters.cost}M+</div>
               <div className="counter-label">Estimated Project Cost</div>
             </div>
-            <div className="counter-item">
+            <div className="counter-item animate-on-scroll">
               <div className="counter-number">{counters.projects.toLocaleString()}+</div>
               <div className="counter-label">Projects Completed</div>
             </div>
-            <div className="counter-item">
+            <div className="counter-item animate-on-scroll">
               <div className="counter-number">{counters.hours.toLocaleString()}+</div>
               <div className="counter-label">Man Hours Saved</div>
             </div>
@@ -122,18 +140,18 @@ const Home: React.FC = () => {
 
       <section className="software-section">
         <div className="software-content">
-          <div className="software-list">
-            <h3>Estimating Software</h3>
+          <div className="software-list fade-in-left">
+            <h3 className="fade-in-up">Estimating Software</h3>
             <div className="software-grid">
               {software.map((item, index) => (
-                <div key={index} className="software-item">{item}</div>
+                <div key={index} className={`software-item fade-in delay-${Math.min(index + 1, 5)}`}>{item}</div>
               ))}
             </div>
           </div>
-          <div className="software-center">
-            <img src="/ARK.png" alt="ARK Logo" className="center-logo" />
+          <div className="software-center scale-in">
+            <img src="/ARK.png" alt="ARK Logo" className="center-logo float-animation" />
           </div>
-          <div className="software-image">
+          <div className="software-image fade-in-right">
             <img src="/Rafty.avif" alt="Construction" className="rafty-img" />
           </div>
         </div>

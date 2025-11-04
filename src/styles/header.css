@@ -130,7 +130,7 @@
 }
 
 .nav a:hover {
-  color: white;
+  color: white !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
 }
@@ -295,7 +295,7 @@
 }
 
 .dropdown-btn:hover {
-  color: white;
+  color: white !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
 }
@@ -363,7 +363,7 @@
 
 .dropdown-trigger:hover {
   background: var(--primary-red);
-  color: white;
+  color: white !important;
 }
 
 .dropdown-arrow {
@@ -414,12 +414,12 @@
 
 .dropdown-content a:hover {
   background: var(--primary-red);
-  color: white;
+  color: white !important;
 }
 
 .dropdown-content a:active {
   background: var(--primary-red);
-  color: white;
+  color: white !important;
 }
 
 @media (max-width: 768px) {

@@ -25,10 +25,10 @@ const Software: React.FC = () => {
             </ul>
           </div>
           <div className="software-logo">
-            <img src="./public/ARK.png" alt="ARK Logo" />
+            <img src="/ARK.png" alt="ARK Logo" />
           </div>
           <div className="software-image">
-            <img src="./public/Rafty.avif" alt="Rafty" />
+            <img src="/Rafty.avif" alt="Rafty" />
           </div>
         </div>
       </div>

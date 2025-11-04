@@ -457,6 +457,8 @@ body {
   align-items: center;
   max-width: 1400px;
   margin: 0 auto;
+  opacity: 0;
+  animation: fadeIn 1s ease-out 0.3s both;
 }
 
 .software-list {
