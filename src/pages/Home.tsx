@@ -8,7 +8,10 @@ const Home: React.FC = () => {
   const [counters, setCounters] = useState({ cost: 0, projects: 0, hours: 0 });
   const [currentService, setCurrentService] = useState(0);
   const [currentClientIndex, setCurrentClientIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isCounterVisible, setIsCounterVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
   const counterRef = useRef<HTMLDivElement>(null);
 
   const services = [
@@ -52,9 +55,11 @@ const Home: React.FC = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
-          setIsVisible(true);
-          const timer = setTimeout(() => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setIsCounterVisible(true);
+          setHasAnimated(true);
+          
+          setTimeout(() => {
             const interval = setInterval(() => {
               setCounters(prev => ({
                 cost: prev.cost < 100 ? prev.cost + 3 : 100,
@@ -79,7 +84,40 @@ const Home: React.FC = () => {
         observer.unobserve(counterRef.current);
       }
     };
-  }, [isVisible]);
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    const clientInterval = setInterval(() => {
+      setCurrentClientIndex(prev => (prev + 1) % clients.length);
+    }, 3000);
+
+    return () => clearInterval(clientInterval);
+  }, [clients.length]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      setCurrentClientIndex(prev => (prev + 1) % clients.length);
+    }
+    if (isRightSwipe) {
+      setCurrentClientIndex(prev => prev === 0 ? clients.length - 1 : prev - 1);
+    }
+  };
+
+  const nextClient = () => setCurrentClientIndex(prev => (prev + 1) % clients.length);
+  const prevClient = () => setCurrentClientIndex(prev => prev === 0 ? clients.length - 1 : prev - 1);
 
   useEffect(() => {
     const serviceInterval = setInterval(() => {
@@ -106,9 +144,6 @@ const Home: React.FC = () => {
       <section className="about-section">
         <div className="container">
           <div className="about-header">
-            <div className="support-image-container">
-              <img src="https://via.placeholder.com/80x80/e53e3e/ffffff?text=ARK" alt="Support" className="support-image" />
-            </div>
             <h2>ARK GLOBAL SERVICES</h2>
           </div>
           <div className="about-content">
@@ -122,15 +157,15 @@ const Home: React.FC = () => {
       <section className="counter-section" ref={counterRef}>
         <div className="container">
           <div className="counter-grid">
-            <div className="counter-item animate-on-scroll">
+            <div className={`counter-item ${isCounterVisible ? 'animate' : ''}`}>
               <div className="counter-number">${counters.cost}M+</div>
               <div className="counter-label">Estimated Project Cost</div>
             </div>
-            <div className="counter-item animate-on-scroll">
+            <div className={`counter-item ${isCounterVisible ? 'animate' : ''}`}>
               <div className="counter-number">{counters.projects.toLocaleString()}+</div>
               <div className="counter-label">Projects Completed</div>
             </div>
-            <div className="counter-item animate-on-scroll">
+            <div className={`counter-item ${isCounterVisible ? 'animate' : ''}`}>
               <div className="counter-number">{counters.hours.toLocaleString()}+</div>
               <div className="counter-label">Man Hours Saved</div>
             </div>
@@ -182,8 +217,13 @@ const Home: React.FC = () => {
         <div className="container">
           <h2>Clients we have worked with</h2>
           <div className="clients-carousel">
-            <button className="carousel-btn prev" onClick={() => setCurrentClientIndex(prev => prev === 0 ? clients.length - 1 : prev - 1)}>‹</button>
-            <div className="clients-display">
+            <button className="carousel-btn prev" onClick={prevClient}>‹</button>
+            <div 
+              className="clients-display"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               {clients.slice(currentClientIndex, currentClientIndex + 3).concat(
                 currentClientIndex + 3 > clients.length ? clients.slice(0, (currentClientIndex + 3) - clients.length) : []
               ).map((client, index) => (
@@ -193,7 +233,7 @@ const Home: React.FC = () => {
                 </div>
               ))}
             </div>
-            <button className="carousel-btn next" onClick={() => setCurrentClientIndex(prev => (prev + 1) % clients.length)}>›</button>
+            <button className="carousel-btn next" onClick={nextClient}>›</button>
           </div>
         </div>
       </section>
