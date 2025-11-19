@@ -30,7 +30,7 @@ const Header: React.FC = () => {
     <>
       <header className="header">
         <div className="nav-container">
-          <img src="/ARK.png" alt="ARK Logo" className="logo" />
+          <img src="/ARK.png?v=1" alt="ARK Logo" className="logo" />
           
           <nav className="nav">
             <Link to="/">Home</Link>
@@ -99,7 +99,7 @@ const Header: React.FC = () => {
               </div>
             </div>
             
-            <Link to="/contact">Contact Us</Link>
+            <Link to="/contact" className="contact-us-link">Contact Us</Link>
             <Link to="tel:+13123800712" className="phone">+1 (312) 380-0712</Link>
           </nav>
 

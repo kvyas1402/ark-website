@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppFloat from '../components/WhatsAppFloat';
+import InteractiveEffects from '../components/InteractiveEffects';
 
 const Home: React.FC = () => {
   const [counters, setCounters] = useState({ cost: 0, projects: 0, hours: 0 });
@@ -12,7 +13,9 @@ const Home: React.FC = () => {
   const [hasAnimated, setHasAnimated] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+  const [isHeroInView, setIsHeroInView] = useState(true);
   const counterRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
 
   const services = [
     {
@@ -48,12 +51,12 @@ const Home: React.FC = () => {
   ];
 
   const software = [
-    "Bluebeam Revu", "On Screen Takeoff", "Comsense", "Emullion(EPWS)", 
-    "MCcormick", "Autodesk", "Autocad", "Naviswork", "SFH, Software for Hardware"
+    "Bluebeam Revu", "On Screen Takeoff", "Comsense", "Emullion", 
+    "McCormick", "Autodesk", "AutoCAD", "Navisworks", "SFH Software for Hardware"
   ];
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const counterObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
           setIsCounterVisible(true);
@@ -75,24 +78,32 @@ const Home: React.FC = () => {
       { threshold: 0.3 }
     );
 
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => {
+        setIsHeroInView(entry.isIntersecting);
+      },
+      { threshold: 0.5 }
+    );
+
     if (counterRef.current) {
-      observer.observe(counterRef.current);
+      counterObserver.observe(counterRef.current);
+    }
+    
+    if (heroRef.current) {
+      heroObserver.observe(heroRef.current);
     }
 
     return () => {
       if (counterRef.current) {
-        observer.unobserve(counterRef.current);
+        counterObserver.unobserve(counterRef.current);
+      }
+      if (heroRef.current) {
+        heroObserver.unobserve(heroRef.current);
       }
     };
   }, [hasAnimated]);
 
-  useEffect(() => {
-    const clientInterval = setInterval(() => {
-      setCurrentClientIndex(prev => (prev + 1) % clients.length);
-    }, 3000);
 
-    return () => clearInterval(clientInterval);
-  }, [clients.length]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
@@ -133,7 +144,7 @@ const Home: React.FC = () => {
     <>
       <Header />
       
-      <section className="hero">
+      <section className={`hero ${!isHeroInView ? 'scrolled' : ''}`} ref={heroRef}>
         <div className="hero-video-container">
           <video className="hero-video" autoPlay muted loop playsInline>
             <source src="/ARKVideo.mp4" type="video/mp4" />
@@ -144,11 +155,11 @@ const Home: React.FC = () => {
       <section className="about-section">
         <div className="container">
           <div className="about-header">
-            <h2>ARK GLOBAL SERVICES</h2>
+            <h2>ARKSimplifiq Private Limited</h2>
           </div>
           <div className="about-content">
             <p>
-              ARK Global Services is a customer-centric construction service company dedicated to providing efficient solutions for the global construction industry. Our team is committed to delivering exceptional quality outputs that save time and cost for our clients. We believe in streamlining the paperwork, documentation, scheduling, and estimating processes, so our clients can focus on their construction projects. Our comprehensive project management approach offers a wide range of services to meet our client's needs. Contact us today to learn more about our services and receive a customized estimate.
+              ARKSimplifiq is a customer-centric construction service company dedicated to providing efficient solutions for the global construction industry. Our team is committed to delivering exceptional quality outputs that save time and cost for our clients. We believe in streamlining the paperwork, documentation, scheduling, and estimating processes, so our clients can focus on their construction projects. Our comprehensive project management approach offers a wide range of services to meet our client's needs. Contact us today to learn more about our services and receive a customized estimate.
             </p>
           </div>
         </div>
@@ -174,20 +185,23 @@ const Home: React.FC = () => {
       </section>
 
       <section className="software-section">
-        <div className="software-content">
-          <div className="software-list fade-in-left">
-            <h3 className="fade-in-up">Estimating Software</h3>
-            <div className="software-grid">
-              {software.map((item, index) => (
-                <div key={index} className={`software-item fade-in delay-${Math.min(index + 1, 5)}`}>{item}</div>
-              ))}
+        <div className="container">
+          <h2>Estimating Software</h2>
+          <div className="software-grid">
+            <div className="software-list">
+              <h3>Estimating Software</h3>
+              <ul>
+                {software.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
             </div>
-          </div>
-          <div className="software-center scale-in">
-            <img src="/ARK.png" alt="ARK Logo" className="center-logo float-animation" />
-          </div>
-          <div className="software-image fade-in-right">
-            <img src="/Rafty.avif" alt="Construction" className="rafty-img" />
+            <div className="software-logo">
+              <img src="/ARK.png" alt="ARK Logo" />
+            </div>
+            <div className="software-image">
+              <img src="/Rafty.avif" alt="Construction" />
+            </div>
           </div>
         </div>
       </section>
@@ -216,30 +230,28 @@ const Home: React.FC = () => {
       <section className="clients-section">
         <div className="container">
           <h2>Clients we have worked with</h2>
-          <div className="clients-carousel">
-            <button className="carousel-btn prev" onClick={prevClient}>‹</button>
-            <div 
-              className="clients-display"
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
-              {clients.slice(currentClientIndex, currentClientIndex + 3).concat(
-                currentClientIndex + 3 > clients.length ? clients.slice(0, (currentClientIndex + 3) - clients.length) : []
-              ).map((client, index) => (
-                <div key={index} className="client-item">
-                  <img src={client.logo} alt={client.name} className="client-logo" />
-                  <div className="client-name">{client.name}</div>
-                </div>
-              ))}
-            </div>
-            <button className="carousel-btn next" onClick={nextClient}>›</button>
+          <div className="clients-display">
+          <div className="clients-scroll">
+            {clients.map((client, index) => (
+              <div key={index} className="client-item">
+                <img src={client.logo} alt={client.name} className="client-logo" />
+                <div className="client-name">{client.name}</div>
+              </div>
+            ))}
+            {clients.map((client, index) => (
+              <div key={`duplicate-${index}`} className="client-item">
+                <img src={client.logo} alt={client.name} className="client-logo" />
+                <div className="client-name">{client.name}</div>
+              </div>
+            ))}
           </div>
+        </div>
         </div>
       </section>
 
       <Footer />
       <WhatsAppFloat />
+      <InteractiveEffects />
     </>
   );
 };

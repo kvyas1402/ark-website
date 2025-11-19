@@ -10,7 +10,7 @@ const More: React.FC = () => {
       <main className="page-content">
         <div className="container">
           <h1>More</h1>
-          <p>Additional information and resources from ARK Global Services.</p>
+          <p>Additional information and resources from ARKSimplific Private Limited.</p>
         </div>
       </main>
       <Footer />

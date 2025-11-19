@@ -2,82 +2,178 @@ import React, { useState, useEffect } from 'react'
 
 interface Service {
   title: string
-  content: string[]
+  icon: string
+  description: string
+  features: string[]
+  benefits: string[]
 }
 
 const Services: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [isAutoPlay, setIsAutoPlay] = useState(true)
 
   const services: Service[] = [
     {
-      title: 'ESTIMATING',
-      content: [
-        'We believe in great people and our estimators are dedicated to cultivating a bespoke standard of preconstruction estimates for your team.',
-        'Whether you are a General Contractor or a Sub Contractor, we have the best-in-class Standard Operating Procedures that we develop uniquely for your company, all our team operates on a well-written set of estimation parameters cultivated so that we never miss a detail before submitting an estimate. We provide quality assistance on all stages from receiving a bid, to managing all documents and updates on the bid cycle till the number is delivered to the clients.'
+      title: 'ESTIMATING SERVICES',
+      icon: '📊',
+      description: 'Professional preconstruction estimates with bespoke standards for your team.',
+      features: [
+        'Best-in-class Standard Operating Procedures',
+        'Unique estimation parameters for your company',
+        'Complete bid cycle management',
+        'Quality assistance at all stages'
+      ],
+      benefits: [
+        'Never miss a detail',
+        'Dedicated estimators',
+        'Tailored for GCs & Subcontractors',
+        'End-to-end support'
       ]
     },
     {
       title: 'BID MANAGEMENT',
-      content: [
-        'Don\'t worry about getting hundreds of invites on a daily basis, our team of bid managers will catch those invites for you, and when you reach the office we will keep a daily schedule of your lined up invites and give you a synopsis of what is the next best project for you.'
+      icon: '📋',
+      description: 'Comprehensive bid invitation management and project selection assistance.',
+      features: [
+        'Daily bid invite monitoring',
+        'Organized project schedules',
+        'Project synopsis and analysis',
+        'Best project recommendations'
+      ],
+      benefits: [
+        'No missed opportunities',
+        'Streamlined workflow',
+        'Strategic project selection',
+        'Time-efficient process'
       ]
     },
     {
-      title: 'DOCUMENT AND RFI MANAGEMENT',
-      content: [
-        'Once you have decided to bid on a project, we will start operating on the documents of that project.',
-        'So, you will get a list of all documents that are available, and all that is useful for you, systematically arranged per your preference and genre of work.',
-        'This will help you save time in paperwork management and sorting out relevant data.',
-        'We will notify you of all discrepancies related to your scope and help you file those important RFIs with accurate detailing and a custom-made RFI format for your team.'
+      title: 'DOCUMENT & RFI MANAGEMENT',
+      icon: '📁',
+      description: 'Systematic document organization and professional RFI handling.',
+      features: [
+        'Complete document organization',
+        'Scope-specific arrangement',
+        'Discrepancy identification',
+        'Custom RFI formatting'
+      ],
+      benefits: [
+        'Save time on paperwork',
+        'Organized data access',
+        'Accurate RFI filing',
+        'Reduced errors'
       ]
     },
     {
-      title: 'Time Saving',
-      content: [
-        'We will continuously work at achieving a one-week lead time to all your estimates, we will be ready with the detailed estimate one week before the due date.',
-        'We give a strong lead time so that you get enough time for revisions and planning the procurement strategy for every individual project.'
+      title: 'TIME OPTIMIZATION',
+      icon: '⏰',
+      description: 'Fast turnaround with one-week lead time for all estimates.',
+      features: [
+        'One-week lead time guarantee',
+        'Early estimate delivery',
+        'Revision time allocation',
+        'Procurement planning support'
+      ],
+      benefits: [
+        'More time for revisions',
+        'Better planning opportunity',
+        'Competitive advantage',
+        'Stress-free deadlines'
       ]
     }
   ]
 
   useEffect(() => {
+    if (!isAutoPlay) return
+    
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % services.length)
-    }, 5000)
+    }, 6000)
 
     return () => clearInterval(interval)
-  }, [services.length])
+  }, [services.length, isAutoPlay])
 
   const changeSlide = (index: number) => {
     setCurrentSlide(index)
+    setIsAutoPlay(false)
+    setTimeout(() => setIsAutoPlay(true), 10000)
+  }
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % services.length)
+    setIsAutoPlay(false)
+    setTimeout(() => setIsAutoPlay(true), 10000)
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + services.length) % services.length)
+    setIsAutoPlay(false)
+    setTimeout(() => setIsAutoPlay(true), 10000)
   }
 
   return (
     <section className="services-section" id="services">
       <div className="container">
-        <h2>Our Services</h2>
-        <div className="slider-container">
-          <div className="slider">
+        <h2>Our Professional Services</h2>
+        <div className="services-slider-container">
+          <button className="slider-arrow slider-arrow-left" onClick={prevSlide}>
+            ‹
+          </button>
+          
+          <div className="services-slider">
             {services.map((service, index) => (
-              <div key={index} className={`slide ${index === currentSlide ? 'active' : ''}`}>
-                <h3>{service.title}</h3>
-                {service.content.map((paragraph, pIndex) => (
-                  <p key={pIndex}>{paragraph}</p>
-                ))}
+              <div key={index} className={`service-slide ${index === currentSlide ? 'active' : ''}`}>
+                <div className="service-header">
+                  <div className="service-icon">{service.icon}</div>
+                  <h3>{service.title}</h3>
+                </div>
+                
+                <p className="service-description">{service.description}</p>
+                
+                <div className="service-content">
+                  <div className="service-features">
+                    <h4>Key Features</h4>
+                    <ul>
+                      {service.features.map((feature, fIndex) => (
+                        <li key={fIndex}>{feature}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div className="service-benefits">
+                    <h4>Benefits</h4>
+                    <ul>
+                      {service.benefits.map((benefit, bIndex) => (
+                        <li key={bIndex}>{benefit}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
-          <div className="slider-nav">
-            {services.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => changeSlide(index)}
-                className={index === currentSlide ? 'active' : ''}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
+          
+          <button className="slider-arrow slider-arrow-right" onClick={nextSlide}>
+            ›
+          </button>
+        </div>
+        
+        <div className="services-nav">
+          {services.map((service, index) => (
+            <button
+              key={index}
+              onClick={() => changeSlide(index)}
+              className={`nav-dot ${index === currentSlide ? 'active' : ''}`}
+              title={service.title}
+            >
+              <span className="nav-icon">{service.icon}</span>
+              <span className="nav-label">{service.title.split(' ')[0]}</span>
+            </button>
+          ))}
+        </div>
+        
+        <div className="auto-play-indicator">
+          <div className={`play-bar ${isAutoPlay ? 'active' : ''}`}></div>
         </div>
       </div>
     </section>

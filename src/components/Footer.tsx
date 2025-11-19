@@ -9,17 +9,19 @@ const Footer: React.FC = () => {
         <div className="footer-main">
           <div className="footer-company">
             <img src="/ARK.png" alt="ARK Logo" className="footer-logo" />
-            <h3>ARK Global Services</h3>
+            <h3>ARKSimplifiq Private Limited</h3>
             <p>
               Professional construction services with over a decade of excellence. 
               We specialize in residential and commercial construction, delivering 
               quality results that exceed expectations.
             </p>
             <div className="footer-contact">
-              <div>📧 admin@ark2construct.com</div>
+              <div>📧 admin@arksimplifiq.com</div>
               <div>📞 +1 (312) 380-0712</div>
               <div>💬 WhatsApp: +91 87999 43887</div>
-              <div>📍 Professional Construction Services</div>
+              <div>📍 ARK SQUARE CONSTRUCTION SERVICES</div>
+              <div className="address-line">2nd & 4th floor, Plot 481, opposite women's College</div>
+              <div className="address-line">New Nandanvan Colony, Nandanvan, Nagpur, Maharashtra 440024</div>
             </div>
             <div className="footer-social">
               <a href="https://www.facebook.com/people/ARK-Square-Construction-Services/61560240804233/" target="_blank" rel="noopener noreferrer">
@@ -80,7 +82,7 @@ const Footer: React.FC = () => {
         
         <div className="footer-bottom">
           <div>
-            <p>&copy; 2024 ARK Global Services. All rights reserved.</p>
+            <p>&copy; 2024 ARKSimplifiq Private Limited. All rights reserved.</p>
 
           </div>
           <div className="footer-legal">

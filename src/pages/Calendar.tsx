@@ -2,17 +2,32 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppFloat from '../components/WhatsAppFloat';
+import '../calendar.css';
 
 const Calendar: React.FC = () => {
   return (
     <>
       <Header />
-      <main className="page-content">
-        <div className="container">
-          <h1>Calendar</h1>
-          <p>Schedule your construction projects and appointments with ARK Global Services.</p>
+      <div className="calendar-page-new">
+        <div className="calendar-container-new">
+          <div className="calendar-header-new">
+            <h1>Schedule Your Consultation</h1>
+            <p>Book a meeting with Rohit Purohit, Managing Director at ARK Simplifiq</p>
+          </div>
+          
+          <div className="calendar-wrapper-new">
+            <div className="calendar-frame-new">
+              <iframe
+                src="https://app.usemotion.com/meet/rohit-purohit/meet"
+                className="calendar-iframe"
+                title="Schedule Meeting with Rohit Purohit"
+              />
+            </div>
+            
+
+          </div>
         </div>
-      </main>
+      </div>
       <Footer />
       <WhatsAppFloat />
     </>
