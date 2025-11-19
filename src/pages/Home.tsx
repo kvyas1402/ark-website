@@ -52,6 +52,9 @@ const Home: React.FC = () => {
   ];
 
   useEffect(() => {
+    const counterEl = counterRef.current;
+    const heroEl = heroRef.current;
+    
     const counterObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
@@ -81,22 +84,20 @@ const Home: React.FC = () => {
       { threshold: 0.5 }
     );
 
-    if (counterRef.current) {
-      counterObserver.observe(counterRef.current);
+    if (counterEl) {
+      counterObserver.observe(counterEl);
     }
     
-    if (heroRef.current) {
-      heroObserver.observe(heroRef.current);
+    if (heroEl) {
+      heroObserver.observe(heroEl);
     }
 
     return () => {
-      const counter = counterRef.current;
-      const hero = heroRef.current;
-      if (counter) {
-        counterObserver.unobserve(counter);
+      if (counterEl) {
+        counterObserver.unobserve(counterEl);
       }
-      if (hero) {
-        heroObserver.unobserve(hero);
+      if (heroEl) {
+        heroObserver.unobserve(heroEl);
       }
     };
   }, [hasAnimated]);
