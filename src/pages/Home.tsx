@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppFloat from '../components/WhatsAppFloat';
@@ -8,11 +7,8 @@ import InteractiveEffects from '../components/InteractiveEffects';
 const Home: React.FC = () => {
   const [counters, setCounters] = useState({ cost: 0, projects: 0, hours: 0 });
   const [currentService, setCurrentService] = useState(0);
-  const [currentClientIndex, setCurrentClientIndex] = useState(0);
   const [isCounterVisible, setIsCounterVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
   const [isHeroInView, setIsHeroInView] = useState(true);
   const counterRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -94,41 +90,16 @@ const Home: React.FC = () => {
     }
 
     return () => {
-      if (counterRef.current) {
-        counterObserver.unobserve(counterRef.current);
+      const counter = counterRef.current;
+      const hero = heroRef.current;
+      if (counter) {
+        counterObserver.unobserve(counter);
       }
-      if (heroRef.current) {
-        heroObserver.unobserve(heroRef.current);
+      if (hero) {
+        heroObserver.unobserve(hero);
       }
     };
   }, [hasAnimated]);
-
-
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      setCurrentClientIndex(prev => (prev + 1) % clients.length);
-    }
-    if (isRightSwipe) {
-      setCurrentClientIndex(prev => prev === 0 ? clients.length - 1 : prev - 1);
-    }
-  };
-
-  const nextClient = () => setCurrentClientIndex(prev => (prev + 1) % clients.length);
-  const prevClient = () => setCurrentClientIndex(prev => prev === 0 ? clients.length - 1 : prev - 1);
 
   useEffect(() => {
     const serviceInterval = setInterval(() => {
@@ -138,7 +109,7 @@ const Home: React.FC = () => {
     return () => {
       clearInterval(serviceInterval);
     };
-  }, []);
+  }, [services.length]);
 
   return (
     <>
