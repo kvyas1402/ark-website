@@ -19,6 +19,7 @@ import More from './pages/More';
 import Team from './pages/Team';
 import './shared/styles.css';
 import './styles/team.css';
+import './styles/contact.css';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
