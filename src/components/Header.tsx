@@ -62,6 +62,7 @@ const Header: React.FC = () => {
               </div>
               <div className={`dropdown-content ${activeDropdown === 'company' ? 'active' : ''}`}>
                 <Link to="/about">About</Link>
+                <Link to="/team">Team</Link>
                 <Link to="/client-benefits">Client Benefits</Link>
                 <Link to="/american-vendors">American Vendors</Link>
                 <Link to="/job-vacancy">Job Vacancy</Link>
@@ -121,6 +122,7 @@ const Header: React.FC = () => {
         <Link to="/submittal-services" onClick={toggleMenu}>Submittal Services</Link>
         <Link to="/estimating-software" onClick={toggleMenu}>Estimating Softwares</Link>
         <Link to="/about" onClick={toggleMenu}>About</Link>
+        <Link to="/team" onClick={toggleMenu}>Team</Link>
         <Link to="/client-benefits" onClick={toggleMenu}>Client Benefits</Link>
         <Link to="/american-vendors" onClick={toggleMenu}>American Vendors</Link>
         <Link to="/job-vacancy" onClick={toggleMenu}>Job Vacancy</Link>

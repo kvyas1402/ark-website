@@ -16,7 +16,9 @@ import EstimatingSoftware from './pages/EstimatingSoftware';
 import JobVacancy from './pages/JobVacancy';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import More from './pages/More';
+import Team from './pages/Team';
 import './shared/styles.css';
+import './styles/team.css';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -49,6 +51,7 @@ const App: React.FC = () => {
         <Route path="/job-vacancy" element={<JobVacancy />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/more" element={<More />} />
+        <Route path="/team" element={<Team />} />
       </Routes>
     </Router>
   );

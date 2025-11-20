@@ -5,6 +5,14 @@ import Footer from '../components/Footer';
 const AmericanVendors: React.FC = () => {
   const vendors = Array.from({ length: 14 }, (_, i) => i + 1);
 
+  React.useEffect(() => {
+    document.title = 'American Vendors - ARK Global Services';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Trusted partnerships with leading American construction vendors. Quality suppliers for your construction projects.');
+    }
+  }, []);
+
   return (
     <>
       <Header />
