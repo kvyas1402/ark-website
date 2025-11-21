@@ -54,26 +54,11 @@ const Team: React.FC = () => {
               <div className="profile-card">
                 <img src={selectedMember.image} alt={selectedMember.name} />
                 <h2>{selectedMember.name}</h2>
-                <h3>{selectedMember.position}</h3>
-                <div className="contact-info">
-                  <p><strong>Email:</strong> {selectedMember.email}</p>
-                  <p><strong>Phone:</strong> {selectedMember.phone}</p>
-                  <p><strong>Experience:</strong> {selectedMember.experience}</p>
-                </div>
+                <h3>{selectedMember.role}</h3>
                 <div className="bio">
-                  <h4>About</h4>
-                  <p>{selectedMember.bio}</p>
+                  <h4>Profile</h4>
+                  <p>{selectedMember.profile}</p>
                 </div>
-                {selectedMember.skills.length > 0 && (
-                  <div className="skills">
-                    <h4>Skills</h4>
-                    <div className="skills-list">
-                      {selectedMember.skills.map((skill, index) => (
-                        <span key={index} className="skill-tag">{skill}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             ) : (
               <div className="no-selection">
@@ -94,7 +79,7 @@ const Team: React.FC = () => {
                   <img src={member.image} alt={member.name} />
                   <div className="member-info">
                     <h4>{member.name}</h4>
-                    <p>{member.position}</p>
+                    <p>{member.role}</p>
                   </div>
                 </div>
               ))}

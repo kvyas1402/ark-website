@@ -1,13 +1,10 @@
 export interface TeamMember {
   id: string;
   name: string;
-  position: string;
-  email: string;
-  phone: string;
-  bio: string;
+  role: string;
+  profile: string;
   image: string;
-  experience: string;
-  skills: string[];
+  displayOrder: number;
 }
 
 
@@ -27,15 +24,12 @@ export const fetchTeamMembers = async (): Promise<TeamMember[]> => {
     
     return data.map((member: any, index: number) => ({
       id: (index + 1).toString(),
-      name: member.name || '',
-      position: member.position || '',
-      email: member.email || '',
-      phone: member.phone || '',
-      bio: member.bio || '',
-      image: member.image || '/ARK.png',
-      experience: member.experience || '',
-      skills: member.skills ? member.skills.split(',').map((skill: string) => skill.trim()) : []
-    }));
+      name: member.Name || '',
+      role: member.Role || '',
+      profile: member.Profile || '',
+      image: member['Image URL'] || '/ARK.png',
+      displayOrder: member['Display Order'] || index + 1
+    })).sort((a, b) => a.displayOrder - b.displayOrder);
   } catch (error) {
     console.error('Error fetching team data:', error);
     return [];
