@@ -104,6 +104,14 @@ const Contact: React.FC = () => {
           </div>
         </div>
         
+        <div style={{ textAlign: 'center', margin: '2rem 0' }}>
+          <img 
+            src="https://drive.google.com/uc?export=view&id=1UZRgviGgUWMoUb7kB" 
+            alt="ARK Office Location" 
+            style={{ maxWidth: '100%', height: 'auto', borderRadius: '12px', boxShadow: '0 8px 25px rgba(0,0,0,0.15)' }}
+          />
+        </div>
+        
         <div className="contact-main">
           <div className="contact-form-section">
             <h2>Send us a Message</h2>
@@ -260,19 +268,14 @@ const Contact: React.FC = () => {
             <p>Visit us at our office in Nagpur, Maharashtra</p>
           </div>
           <div className="map-container-full">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.0123456789!2d79.0881979!3d21.1458004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c0a5a31faf13%3A0x19233d3b9146d4c!2sNandanvan%2C%20Nagpur%2C%20Maharashtra%20440024!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
-              width="100%" 
-              height="400" 
-              style={{border: 0}} 
-              allowFullScreen 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-              title="ARKSimplifiq Location"
-            ></iframe>
+            <img 
+              src="https://drive.google.com/uc?export=view&id=1UZRgviGgUWMoUb7kB" 
+              alt="ARK Square Construction Services Location" 
+              style={{ width: '100%', height: '400px', objectFit: 'cover', border: 0 }}
+            />
           </div>
           <div className="map-footer">
-            <a href="https://maps.app.goo.gl/Gkrxjp4Zjz7zrsti9" target="_blank" rel="noopener noreferrer" className="map-link-btn">
+            <a href="https://maps.app.goo.gl/3pVAnNco31qSdz8A6" target="_blank" rel="noopener noreferrer" className="map-link-btn">
               View on Google Maps
             </a>
           </div>
